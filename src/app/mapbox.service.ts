@@ -14,11 +14,19 @@ export class MapboxService {
 
   // https://stackoverflow.com/questions/46991237/how-to-import-json-file-into-a-typescript-file
   // how to read json from local
-  public getUsaStates(): Observable<any> {
-    return this.httpClient.get('/assets/usaStates.geojson');
+  public getStatePrices(): Observable<any> {
+    return this.httpClient.get('/assets/statePrices.geojson');
   }
 
-  public getCountyPopulations(): Observable<any> {
-    return this.httpClient.get('/assets/countyPopulation.geojson');
+  public getCountyPrices(): Observable<any> {
+    return this.httpClient.get('/assets/countyPrices.geojson');
+  }
+
+  public getParcelPrices(): Observable<any> {
+    return this.httpClient.get('/assets/parcelPrices.geojson');
+  }
+
+  public getCountyCrime(): Observable<any> {
+    return this.httpClient.get('/assets/countyCrime.geojson');
   }
 }
