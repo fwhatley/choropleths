@@ -38,16 +38,16 @@ export class Homepriceheatmapv2Component implements OnInit {
     // Add map controls
     this.map.addControl(new mapboxgl.NavigationControl());
 
-    this.map.on('mouseenter', 'allparcels', (e) => {
+    // this.map.on('mouseenter', 'allparcels', (e) => {
       // Change the cursor style as a UI indicator.
-      this.map.getCanvas().style.cursor = 'pointer';
-
-      let coordinates: any = null;
-      let value = '';
-      if (e.features[0].geometry.type === 'Polygon') {
-        coordinates = e.features[0].geometry.coordinates.slice();
-        value = e.features[0].properties.value;
-      }
+      // this.map.getCanvas().style.cursor = 'pointer';
+      //
+      // let coordinates: any = null;
+      // let value = '';
+      // if (e.features[0].geometry.type === 'Polygon') {
+      //   coordinates = e.features[0].geometry.coordinates.slice();
+      //   value = e.features[0].properties.value;
+      // }
 
       // Ensure that if the map is zoomed out such that multiple
       // copies of the feature are visible, the popup appears
@@ -59,19 +59,19 @@ export class Homepriceheatmapv2Component implements OnInit {
 
       // Populate the popup and set its coordinates
       // based on the feature found.
-      if (coordinates && coordinates[0] && coordinates[0][0]) {
-        this.popup
-          .setLngLat(coordinates[0][0])
-          .setHTML(value)
-          .addTo(this.map);
-      }
+      // if (coordinates && coordinates[0] && coordinates[0][0]) {
+      //   this.popup
+      //     .setLngLat(coordinates[0][0])
+      //     .setHTML(value)
+      //     .addTo(this.map);
+      // }
 
-    });
+    // });
 
-    this.map.on('mouseleave', 'allparcels', () => {
-      this.map.getCanvas().style.cursor = '';
-      this.popup.remove();
-    });
+    // this.map.on('mouseleave', 'allparcels', () => {
+    //   this.map.getCanvas().style.cursor = '';
+    //   this.popup.remove();
+    // });
 
   }
 

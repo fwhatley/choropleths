@@ -1,6 +1,8 @@
 import { DataProcessor } from './utils/data.processor';
 import { FileService } from './services/file.service';
 import {UtilsService} from './services/utils.service';
+const path = require('path');
+const fs = require('fs');
 
 /***
  * run with: sudo npm run dev
@@ -22,7 +24,22 @@ class Main {
     // this.processFile(`${rootFolder}/countyCrime.geojson`);
     // this.processFile(`${rootFolder}/countyPrices.geojson`);
 
-    this.processFile(`${rootFolder}/statePrices.geojson`);
+    // this.processFile(`${rootFolder}/statePrices.geojson`);
+
+    // point folder with root path: https://nodejs.dev/nodejs-file-paths
+    const ignoreFiles = ['processed', 'DS_Store'];
+    const directoryPath = path.join('/', 'Users/raul/Downloads/landgrid');
+    fs.readdir(directoryPath, (err, files) => {
+      if (err) {
+        return console.log('Unable to scan directory: ' + err);
+      }
+      files.forEach( (filename: string) => {
+        if (!ignoreFiles.some((f) => filename.includes(f))) {
+          this.processFile(path.join('/', 'Users/raul/Downloads/landgrid/', filename));
+        }
+      });
+    });
+
   }
 
   private processFile(filepath: string): void {
@@ -31,7 +48,7 @@ class Main {
     const fileService = new FileService();
     const utilsService = new UtilsService();
 
-    const featureCollection = fileService.getFile(filepath);
+    const featureCollection = fileService.getFileFromRootPath(filepath);
 
     featureCollection.features.forEach((f) => {
       f.properties.value = utilsService.getRandomNumberInRange(0, 1000);
