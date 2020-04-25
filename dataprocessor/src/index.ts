@@ -5,37 +5,42 @@ const path = require('path');
 const fs = require('fs');
 
 /***
- * run with: sudo npm run dev
- * When running with node dist/index.js, make sure the asssets folder is ../../ instead of ../
- * run with:  node --max-old-space-size=8192 index.js to heap limit errors
- * https://stackoverflow.com/questions/54137165/fatal-error-ineffective-mark-compacts-near-heap-limit-allocation-failed-javas
+ * INSTRUCTIONS ON HOW TO USE THIS
+ *   This is a geojson file processor. It grabs all geojson files given a folder and process them all.
  *
+ * 1. update PATH_TO_GEOJSON_FOLDER_TO_PROCESS variable in Main class.
+ *    - This is the path where your gejons live at (eg. ga_faulton.json).
+ *    - The new files will have the same name with 'processed' appended like ga_faulton_processed.json
+ * 2. run:
+ *    - sudo npm i
+ *    - sudo npm run build
+ *        - This will compile all .ts files into js
+ *        - Place all js files into dist folder
+ * 3. sudo node --max-old-space-size=8192 dist/index.js
+ *        - will process all the files
+
+ * Other helpful info
+ *  - https://stackoverflow.com/questions/54137165/fatal-error-ineffective-mark-compacts-near-heap-limit-allocation-failed-javas
+ *  - https://nodejs.dev/nodejs-file-paths
  */
 class Main {
   public processData(): void {
-    const rootFolder = '../src/assets';
 
-    // this.processFile(`${rootFolder}/parcels/ga_dekalb.geojson`);
-    // this.processFile(`${rootFolder}/parcels/ga_forsyth.geojson`);
-    // this.processFile(`${rootFolder}/parcels/ga_fulton.geojson`);
+    //================================== BEGIN TO BE UPDATED ==================================//
+    const PATH_TO_GEOJSON_FOLDER_TO_PROCESS = 'Users/raul/Desktop/landgrid_ga2counties';
+    //================================== END TO BE UPDATED ==================================//
 
-    // this.processFile(`${rootFolder}/neighborhood_n3.geojson`);
-
-    // this.processFile(`${rootFolder}/countyCrime.geojson`);
-    // this.processFile(`${rootFolder}/countyPrices.geojson`);
-
-    // this.processFile(`${rootFolder}/statePrices.geojson`);
-
-    // point folder with root path: https://nodejs.dev/nodejs-file-paths
-    const ignoreFiles = ['processed', 'DS_Store'];
-    const directoryPath = path.join('/', 'Users/raul/Downloads/landgrid');
+    const ignoreFiles = ['processed', 'DS_Store', '.json.zip'];
+    const directoryPath = path.join('/', PATH_TO_GEOJSON_FOLDER_TO_PROCESS);
     fs.readdir(directoryPath, (err, files) => {
       if (err) {
         return console.log('Unable to scan directory: ' + err);
       }
       files.forEach( (filename: string) => {
         if (!ignoreFiles.some((f) => filename.includes(f))) {
-          this.processFile(path.join('/', 'Users/raul/Downloads/landgrid/', filename));
+          if (filename.includes('.json')) {
+            this.processFile(path.join('/', PATH_TO_GEOJSON_FOLDER_TO_PROCESS, '/' + filename));
+          }
         }
       });
     });
@@ -51,19 +56,20 @@ class Main {
     const featureCollection = fileService.getFileFromRootPath(filepath);
 
     featureCollection.features.forEach((f) => {
-      f.properties.value = utilsService.getRandomNumberInRange(0, 1000);
+      let properties = {
+        mo0value: utilsService.getRandomNumberInRange(-1, 9),
+        mo6value: utilsService.getRandomNumberInRange(-1, 9),
+        mo12value: utilsService.getRandomNumberInRange(-1, 9),
+        mo18value: utilsService.getRandomNumberInRange(-1, 9),
+        propertyId: utilsService.getRandomNumberInRange(0, 9999999),
+      };
+      f.properties = properties;
     });
 
     fileService.writeToFile(featureCollection, filepath);
   }
 }
 
-// start program
+// ======== start program ===========//
 const main = new Main();
 main.processData();
-
-
-
-
-
-

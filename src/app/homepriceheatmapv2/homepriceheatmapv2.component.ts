@@ -11,7 +11,7 @@ export class Homepriceheatmapv2Component implements OnInit {
 
   public map: mapboxgl.Map;
   // public style = 'mapbox://styles/fredywhatley/ck7722mza5llw1inkkatcz12e';
-  public style = 'mapbox://styles/fredywhatley/ck7vc13dz01f21io50bsn3uib';
+  public style = 'mapbox://styles/fredywhatley/ck7y99cfu02n41imn9j1d27yf';
   public lat = 33.774830;
   public lng = -84.296310;
   public initialZoom = 15;
