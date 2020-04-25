@@ -14,8 +14,7 @@ const fs = require('fs');
  * 2. run:
  *    - sudo npm i
  *    - sudo npm run build
- *        - This will compile all .ts files into js
- *        - Place all js files into dist folder
+ *        - This will compile all .ts files into js and place all js files into dist folder
  * 3. sudo node --max-old-space-size=8192 dist/index.js
  *        - will process all the files
 
